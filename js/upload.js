@@ -16,15 +16,3 @@ form.addEventListener('submit',(e) => {
         console.log(watermark.value)
 
 })
-
-const main = document.querySelector('main')
-const submit = document.getElementById('submit')
-submit.addEventListener(click,()=>{
-    <form id="uploadPdf">
-    Upload PDF
-    <input type="file" name="" id="uploadedPdf" accept=".pdf" />
-    Watermark Text
-    Watermark: <input type="text" name="watermark" id="watermark" />
-    <input type="submit" value="Submit" />    
-</form>
-})

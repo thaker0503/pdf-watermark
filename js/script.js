@@ -19,14 +19,13 @@
 
 // })
 
-const main = document.querySelector('main')
-const registerBtn = document.getElementById('register')
-registerBtn.addEventListener('click',() => {
-    main.innerHTML = `<form action="" id="regForm">
-    Email: <input type="email" name="" id="email">
-    Password: <input type="password" name="" id="password">
-    Confirm Password: <input type="password" name="" id="confPassword">
-    <input type="submit" value="Submit" id='submit'>
-    Not registered yet? <a href="#login" id="login">click here</a>
-</form>`
-})
+// const main = document.querySelector('main')
+// const registerBtn = document.getElementById('register')
+// registerBtn.addEventListener('click',() => {
+//     main.innerHTML = `<form action="./index.html" id="regForm">
+//     Email: <input type="email" name="" id="email">
+//     Password: <input type="password" name="" id="password">
+//     Confirm Password: <input type="password" name="" id="confPassword">
+//     <input type="submit" value="Submit" id='submit'>
+// </form>`
+// })
