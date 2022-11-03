@@ -1,9 +1,11 @@
 // create modifyPdf function to add watermark to pdf file
 // Path: public\javascripts\addwatermark.js
 // const pdf = require('pdfjs');
+const { atob } = require('buffer');
 const fs = require('fs');
 // const path = require('path');
 const { degrees, PDFDocument, rgb, StandardFonts } = require('pdf-lib');
+const { encode, decode } = require('uint8-to-base64');
 
 const modifyPdf = async (file, output, watermark) => {
     console.log("Modifying this file", file)
@@ -23,7 +25,7 @@ const modifyPdf = async (file, output, watermark) => {
         rotate: degrees(-45),
     });
     const pdfBytes = await pdfDoc.save();
-    await fs.writeFileSync(output, pdfBytes);
+    await fs.writeFileSync("output.pdf", pdfBytes );
     
 }
 
