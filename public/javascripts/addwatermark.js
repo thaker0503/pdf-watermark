@@ -15,16 +15,19 @@ const modifyPdf = async (file, output, watermark) => {
     const pages = pdfDoc.getPages();
     // const firstPage = pages[0];
     const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+
+    const textWidth = timesRomanFont.widthOfTextAtSize(watermark, 50);
+    const textHeight = timesRomanFont.heightAtSize(50);
     for (let i = 0; i < pages.length; i++) {
         const { width, height } = pages[i].getSize();
         pages[i].drawText(watermark, {
-            x: 20,
-            y: height / 2 + 250,
-            opacity: 0.5,
+            x: width / 2 - textWidth / 2,
+            y: height / 2 - textHeight / 2,
+            opacity: 0.6,
             size: 50,
             font: timesRomanFont,
-            color: rgb(0, 0, 0.67),
-            rotate: degrees(-45),
+            color: rgb(0, 0, 0),
+            // rotate: degrees(45),
             blendMode: BlendMode.Overlay
         });
         
