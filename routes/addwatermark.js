@@ -7,7 +7,7 @@ const modifyPdf = require('../public/javascripts/addwatermark');
 // const { PDFNet } = require('@pdftron/pdfnet-node');
 
 const upload = multer({
-    storage: multer.diskStorage({
+    storage: multer.memoryStorage({
         destination: path.join(__dirname, '../public/uploads/'),
         filename: function (req, file, cb) {
             const uniqueSuffix = Date.now();
@@ -24,9 +24,9 @@ const upload = multer({
 router.post('/', upload.single('uploadedPdf'), async (req, res) => {
     const file = req.file
     const output = path.join(__dirname + '/output')
-    await modifyPdf();
+    await modifyPdf(file,output,req.body.watermark);
     res.send({
-        file: file,
+        file: file.originalname,
         watermark: req.body.watermark
     })
 });
