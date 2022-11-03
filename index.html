@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF watermark</title>
-    <script src="./js/script.js" type="module"></script>
+    
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -16,33 +16,15 @@
         <main>
             <div id="main1">
                 <!-- Login Form -->
-            <form action="./upload.html" id="loginForm">
-                Email: <input type="email" name="" id="email">
-                Password: <input type="password" name="" id="password">
-                <input type="submit" value="Submit">
-                Not registered yet? <a href="./registration.html" id="register" >click here</a>
+            <form action="./upload.html" id="loginForm" >
+            Email: <input type="email" name="" id="email">
+            Password: <input type="password" name="" id="password">
+            <input type="submit" value="Submit" id="submit" />
+            Not registered yet? <a href="./registration.html" id="register">click here</a>
             </form>
             </div>
     </nav>
-    
-        
-        <!-- Registration Form -->
-        <!-- <form action="" id="regForm">
-            Email: <input type="email" name="" id="email">
-            Password: <input type="password" name="" id="password">
-            Confirm Password: <input type="password" name="" id="confPassword">
-            <input type="submit" value="Submit">
-            Not registered yet? <a href="#" id="login">click here</a>
-        </form> -->
-        <!-- Upload Pdf Form -->
-        <!-- <form id="uploadPdf">
-            Upload PDF
-            <input type="file" name="" id="uploadedPdf" accept=".pdf" />
-            Watermark Text
-            Watermark: <input type="text" name="watermark" id="watermark" />
-            <input type="submit" value="Submit" />    
-        </form> -->
     </main>
-    
+    <script src="./js/login.js" defer></script>
 </body>
 </html>

@@ -1,42 +1,53 @@
+const submitBtn = document.getElementById('submit')
+
+submitBtn.addEventListener('click',(e) => {
+    e.preventDefault();
+    if (mainFunc()) {
+        fetch('http://127.0.0.1:5500/', {
+        method:'post', 
+        headers: {'Authorization': 'Basic '},
+        body: JSON.stringify({
+            Email: email.value,
+            Password: password.value,
+          }),
+        })
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .catch(error => console.log(error));
+        console.log("Logged In")
+    } else [
+        console.log("Cannot Log In")
+
+    ]
+})
+
+
 function mainFunc(){
-    if (EmailValidate()){
-        if (passwordValidate()){
-            alert ("form submitted")
-        }
+    const email= document.getElementById("email");
+    const password= document.getElementById("password");
+    email.classList.remove('error')
+    password.classList.remove('error')
+    if (EmailValidate(email.value) && passwordValidate(password.value)){
+        
+        console.log("form submitted")
+        return true
     }
     else{
-        return ("plaese fill the details")
-    }
-
+        if (!EmailValidate(email.value)) {
+            email.classList.add('error')
+        }
+        if (!passwordValidate(password.value)) {
+            password.classList.add('error')
+        }
+        console.log("plaese fill the details")
+        return false
+    }   
 }
-
-function userDetails(){
-    const email= document.getElementById("email").value;
-    const password= document.getElementById("password").value;
-
-   
-}
-function EmailValidate(){
-    const email= document.getElementById("email").value;
+function EmailValidate(email){
     const regularExpression  = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    if (email.match(regularExpression)){
-        alert("Valid Email")
-        return true
-    }     
-    alert("Invalid Email")
-    email.focus();
-    return false   
+    return email.match(regularExpression)   
 }
-function passwordValidate(){
-    const password= document.getElementById("password").value;
-    
+function passwordValidate(password){
     const regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    if (password.match(regularExpression)){
-        alert("Valid Password")
-        
-        return true
-    }                
-    alert("Invalid Password");
-    password.focus();
-    return false   
+    return password.match(regularExpression)   
 }
