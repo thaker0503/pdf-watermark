@@ -17,8 +17,8 @@ const modifyPdf = async (file, output, watermark) => {
     const { width, height } = firstPage.getSize();
     const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
     firstPage.drawText(watermark, {
-        x: width / 2,
-        y: height / 2,
+        x: 5,
+        y: height / 2 + 300,
         size: 50,
         font: timesRomanFont,
         color: rgb(0.95, 0.1, 0.1),
