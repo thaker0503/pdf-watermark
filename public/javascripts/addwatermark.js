@@ -20,9 +20,10 @@ const modifyPdf = async (file, output, watermark) => {
         pages[i].drawText(watermark, {
             x: 20,
             y: height / 2 + 250,
+            opacity: 0.5,
             size: 50,
             font: timesRomanFont,
-            color: rgb(0.95, 0.1, 0.1),
+            color: rgb(0, 0, 0.67),
             rotate: degrees(-45),
             blendMode: BlendMode.Overlay
         });
