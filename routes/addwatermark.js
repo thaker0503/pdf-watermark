@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var path = require('path');
-
-
+const modifyPdf = require('../public/javascripts/addwatermark');
+// const filesPath = '../public/uploads';
+// const { PDFNet } = require('@pdftron/pdfnet-node');
 
 const upload = multer({
     storage: multer.diskStorage({
-        destination: path.join(__dirname, './public/uploads/'),
+        destination: path.join(__dirname, '../public/uploads/'),
         filename: function (req, file, cb) {
             const uniqueSuffix = Date.now();
             // console.log("file", file)
@@ -20,19 +21,14 @@ const upload = multer({
     })
 });
 
-
-
-router.post('/', upload.single('uploadedPdf'), function (req, res) {
-    // req.file is the name of your file in the form above, here 'uploaded_file'
-    // req.body will hold the text fields, if there were any
-    // console.log(req.file, req.body)
-    modifyPdf();
+router.post('/', upload.single('uploadedPdf'), async (req, res) => {
+    const file = req.file
+    const output = path.join(__dirname + '/output')
+    await modifyPdf();
     res.send({
-        msg: "Success", data: {
-            file: req.file.originalname,
-            path: req.file.path,
-            watermark: req.body.watermark
-    }})
+        file: file,
+        watermark: req.body.watermark
+    })
 });
 
 module.exports = router;
