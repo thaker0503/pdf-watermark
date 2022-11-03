@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/upload');
 var loginRouter = require('./routes/login');
+var waterMarkRouter = require('./routes/addwatermark');
 // var uploadPageRouter = require('./routes/uploadpage');
 
 var app = express();
@@ -26,7 +27,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/upload', uploadRouter);
 app.use('/login', loginRouter);
+app.use('/addwatermark', waterMarkRouter);
 // app.use('/uploadpage', uploadPageRouter)
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
