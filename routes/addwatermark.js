@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var path = require('path');
+const fs = require('fs')
 const modifyPdf = require('../public/javascripts/addwatermark');
 // const filesPath = '../public/uploads';
 // const { PDFNet } = require('@pdftron/pdfnet-node');
@@ -24,7 +25,7 @@ const upload = multer({
 router.post('/', upload.single('uploadedPdf'), async (req, res) => {
     const file = req.file
     const output = path.join(__dirname + '/output')
-    await modifyPdf(file,output,req.body.watermark);
+    await modifyPdf(file, output, req.body.watermark);
     res.send({
         file: file.originalname,
         watermark: req.body.watermark
