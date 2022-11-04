@@ -1,9 +1,9 @@
 const fs = require('fs');
 const { degrees, PDFDocument, rgb, StandardFonts, BlendMode } = require('pdf-lib');
 
-const { getStorage, ref, uploadBytes } = require("firebase/storage");
-const modifyPdf = async (file,  watermark) => {
-    // console.log("Modifying this file", file)
+const { getStorage, ref, uploadBytes, getDownloadURL } = require("firebase/storage");
+async function modifyPdf(file,  watermark){
+    // console.log("Modifying this file", file.originalname)
     // file = file.arrayBuffer();
     // const pdfDoc = await PDFDocument.load(fs.readFileSync(file.buffer));
     const pdfDoc = await PDFDocument.load(file.buffer);
@@ -28,14 +28,17 @@ const modifyPdf = async (file,  watermark) => {
         
     }
     const pdfBytes = await pdfDoc.save();
-    // console.log(pdfBytes)
     const firebaseStorage = getStorage();
-    const storageRef = ref(firebaseStorage, 'outputPdf'+ Date.now());
 
-    uploadBytes(storageRef, pdfBytes).then((snapshot) => {
+    const filename = file.originalname.split('.')[0] + '-updated-' + Date.now()
+    const storageRef = ref(firebaseStorage, filename );
+    await uploadBytes(storageRef, pdfBytes).then((snapshot) => {
         // console.log("Snapshot ==========>", snapshot)
         console.log("Upload Success")
-    })
+        getDownloadURL(ref(firebaseStorage, filename)).then(url => {
+            console.log("URL ============",url)
+        })
+    });
 }
 
 module.exports = modifyPdf;

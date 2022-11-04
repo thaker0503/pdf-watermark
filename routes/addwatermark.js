@@ -26,7 +26,8 @@ router.post('/', upload.single('uploadedPdf'), async (req, res) => {
     await modifyPdf(file, req.body.watermark);
     res.send({
         file: file.originalname,
-        watermark: req.body.watermark
+        watermark: req.body.watermark,
+        // url : url
     })
 });
 
