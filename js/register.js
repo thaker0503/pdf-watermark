@@ -3,10 +3,30 @@ const submitBtn = document.getElementById('submit1')
 submitBtn.addEventListener('click',(e) => {
     e.preventDefault();
     if (mainFunc()) {
-        window.location.href = "./index.html"
-        console.log("Logged In")
-    } else [
-        console.log("Cannot Log In")
+        fetch('https://stark-harbor-18596.herokuapp.com/register', {
+        method:'post', 
+        mode:'no-cors',
+        headers: {
+        'Authorization': 'Basic ',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+            Email: email.value,
+            Password: password.value,
+            Confpassword: confpassword.value,
+          })
+        })
+        // .then(response => response.json())
+        .then(resp => resp.text()).then(console.log)
+        // .then(response => console.log(response))
+        .then(json => console.log(json))
+        .catch(error => console.log('Request Failed',error));
+        console.log("Registered In")
+    }
+    else [
+        console.log("Cannot Registered In")
 
     ]
 })
@@ -25,14 +45,14 @@ function mainFunc(){
     }
     
     else{
-        if (!EmailValidate(email.value) || !passwordValidate(password.value) || !confpasswordValidate(password.value,confpassword.value)) {
-            email.classList.add('error');
-            password.classList.add('error');
-            confpassword.classList.add('error');
+        // if (!EmailValidate(email.value) || !passwordValidate(password.value) || !confpasswordValidate(password.value,confpassword.value)) {
+        //     email.classList.add('error');
+        //     password.classList.add('error');
+        //     confpassword.classList.add('error');
 
-            console.log("please fill the details")
-            return false ;
-        }
+        //     console.log("please fill the details")
+        //     return false ;
+        // }
         
         if (!EmailValidate(email.value)) {
             email.classList.add('error');
@@ -51,9 +71,7 @@ function mainFunc(){
             password.classList.add('error')
             confpassword.focus();
             console.log('password doesnot match')
-            // if (password != confpassword) {
-                // return false
-            // }
+           
         }
         // console.log("plaese fill the details")
         // return false

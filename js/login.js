@@ -3,20 +3,29 @@ const submitBtn = document.getElementById('submit')
 submitBtn.addEventListener('click',(e) => {
     e.preventDefault();
     if (mainFunc()) {
-        fetch('http://127.0.0.1:5500/', {
+        fetch('https://stark-harbor-18596.herokuapp.com/login', {
         method:'post', 
-        headers: {'Authorization': 'Basic '},
+        mode:'no-cors',
+        headers: {
+        'Authorization': 'Basic ',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+        },
         body: JSON.stringify({
             Email: email.value,
             Password: password.value,
-          }),
+          })
         })
-        .then(response => response.json())
+        // .then(response => response.json())
+        .then(resp => resp.text()).then(console.log)
+        // .then(response => console.log(response))
         .then(json => console.log(json))
-        .catch(error => console.log(error));
-        console.log("Logged In")
-    } else [
-        console.log("Cannot Log In")
+        .catch(error => console.log('Request Failed',error));
+        console.log("logged In")
+    }
+    else [
+        console.log("Cannot logged In")
 
     ]
 })
