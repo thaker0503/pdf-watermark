@@ -39,6 +39,11 @@ router.post('/', async (req, res) => {
         });
      });
   }
-  function encrypt(password) {
-      return bcrypt.hash(password, 10)
+  async function decrypt(password) {
+  const hash = await bcrypt.hash(password, 10)
+  const match = await bcrypt.compare(password, hash)
+  if (match) {
+   console.log("decrypt:", password);
+   console.log("encrypt:", hash);
   }
+}
