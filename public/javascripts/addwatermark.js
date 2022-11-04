@@ -1,13 +1,8 @@
-// create modifyPdf function to add watermark to pdf file
-// Path: public\javascripts\addwatermark.js
-// const pdf = require('pdfjs');
-const { atob } = require('buffer');
 const fs = require('fs');
-// const path = require('path');
 const { degrees, PDFDocument, rgb, StandardFonts, BlendMode } = require('pdf-lib');
-const { encode, decode } = require('uint8-to-base64');
 
-const modifyPdf = async (file, output, watermark) => {
+const { getStorage, ref, uploadBytes } = require("firebase/storage");
+const modifyPdf = async (file,  watermark) => {
     console.log("Modifying this file", file)
     // file = file.arrayBuffer();
     // const pdfDoc = await PDFDocument.load(fs.readFileSync(file.buffer));
@@ -33,8 +28,14 @@ const modifyPdf = async (file, output, watermark) => {
         
     }
     const pdfBytes = await pdfDoc.save();
-    await fs.writeFileSync("output.pdf", pdfBytes );
-    
+    console.log(pdfBytes)
+    const firebaseStorage = getStorage();
+    const storageRef = ref(firebaseStorage, 'outputPdf'+ Date.now());
+
+    uploadBytes(storageRef, pdfBytes).then((snapshot) => {
+        console.log("Snapshot ==========>", snapshot)
+        console.log("Upload Success")
+    })
 }
 
 module.exports = modifyPdf;

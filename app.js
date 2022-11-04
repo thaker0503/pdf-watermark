@@ -4,6 +4,21 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+const { initializeApp } = require("firebase/app");
+// const { getStorage } = require("firebase/storage");
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAxza-BopzV1uPC2aZ9L354ILNcckNNnMU",
+  authDomain: "pdf-watermark-a2d77.firebaseapp.com",
+  // databaseURL: "https://pdf-watermark-a2d77-default-rtdb.firebaseio.com",
+  projectId: "pdf-watermark-a2d77",
+  storageBucket: "pdf-watermark-a2d77.appspot.com",
+  messagingSenderId: "784866519985",
+  appId: "1:784866519985:web:26c2417c11ba0b7361eb90"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+// const firebaseStorage = getStorage(firebaseApp);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -51,4 +66,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+module.exports = firebaseApp;
 module.exports = app;
