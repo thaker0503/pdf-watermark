@@ -33,7 +33,7 @@ const modifyPdf = async (file,  watermark) => {
     const storageRef = ref(firebaseStorage, 'outputPdf'+ Date.now());
 
     uploadBytes(storageRef, pdfBytes).then((snapshot) => {
-        console.log("Snapshot ==========>", snapshot)
+        // console.log("Snapshot ==========>", snapshot)
         console.log("Upload Success")
     })
 }
