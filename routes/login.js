@@ -10,21 +10,22 @@ router.post('/', async (req, res) => {
         password: "",
         database:"userDetails"
       });
-    await databasesql(con,req.body.email,req.body.password);
+      const hash = await bcrypt.hash(password, 10)
+    await databasesql(con,req.body.email,hash);
     // console.log("Response",result);
         res.send({
-            msg: "Data added successfully",
+            msg: "Login successfully",
             // Result: result
         // });
     })
-    encrypt(req.body.password);
+    decrypt(req.body.password);
     // res.send("Facing Errors")
    
   })
   
   async function databasesql(con,email,password){
       
-    const sql = "INSERT INTO `credentials` (`email`, `password`, `verified`) VALUES ('"+email+"', '"+password+"', '0');"
+    const sql = "INSERT INTO `login` (`email`, `password`, `verified`) VALUES ('"+email+"', '"+password+"', '0');"
       
     con.connect(async (err) => {
         if (err) console.log(err);
@@ -35,7 +36,7 @@ router.post('/', async (req, res) => {
           if(result.affectedRows > 0){
             console.log("Running If")
             return true;
-          }
+          };
         });
      });
   }
@@ -45,5 +46,9 @@ router.post('/', async (req, res) => {
   if (match) {
    console.log("decrypt:", password);
    console.log("encrypt:", hash);
+   return true
+  }
+  else{
+    return false;
   }
 }
