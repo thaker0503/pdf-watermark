@@ -9,8 +9,8 @@ async function encrypt(password) {
 }
 
 router.post('/', async (req, res) => {
-  req.body.password = await encrypt(req.body.password);
-  await writeUserData(req.body.email, req.body.password);
+  const encPassword = await encrypt(req.body.password);
+  await writeUserData(req.body.email, encPassword);
   res.send({
     // msg: "User Registered Successfully"
     msg: req.body
