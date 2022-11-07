@@ -5,6 +5,9 @@ const { getDatabase, ref, set } = require("firebase/database");
 const { uuid } = require('uuidv4');
 
 function encrypt(password) {
+  if (password == undefined) {
+    return;
+  }
   return new Promise((resolve,reject) => {
     bcrypt.hash(password, 10, (er, encrypted) => {
       if (er) reject(er)
