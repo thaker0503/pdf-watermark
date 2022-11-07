@@ -4,6 +4,7 @@ const user = require("./config")
 const app = express();
 app.use(express.json());
 app.use(cors());
+const firebase = require('firebaseApp')
 var router = express.Router();
 // const mysql = require('mysql');
 const bcrypt = require('bcrypt');
