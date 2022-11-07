@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const { getDatabase, ref, set } = require("firebase/database");
 const { uuid } = require('uuidv4');
 
-async function encrypt(password) {
+function encrypt(password) {
   return bcrypt.hash(password, 10)
 }
 
