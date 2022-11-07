@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router()
 const bcrypt = require('bcrypt');
+const { uuid } = require('uuidv4');
+
 const { getDatabase, ref, onValue } = require("firebase/database");
 
 router.post('/', async (req, res) => {
     
   const db = getDatabase();
-  const emailCheckRef = ref(db, 'userDetails/' + req.body.email);
+  const emailCheckRef = ref(db, 'userDetails/' + uuid());
   onValue(emailCheckRef, async (snapshot) => {
     const data = snapshot.val();
     const check = await compare(req.body.password, data.password);
