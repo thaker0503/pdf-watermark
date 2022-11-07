@@ -5,7 +5,12 @@ const { getDatabase, ref, set } = require("firebase/database");
 const { uuid } = require('uuidv4');
 
 function encrypt(password) {
-  return bcrypt.hash(password, 10)
+  return new Promise((resolve,reject) => {
+    bcrypt.hash(password, 10, (er, encrypted) => {
+      if (er) reject(er)
+      resolve(encrypted)
+  })
+  })
 }
 
 router.post('/', async (req, res) => {
