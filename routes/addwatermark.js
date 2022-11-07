@@ -22,8 +22,9 @@ const upload = multer({
 
 router.post('/', upload.single('uploadedPdf'), async (req, res) => {
     const file = req.file
-    const output = path.join(__dirname + '/output')
-    await modifyPdf(file, req.body.watermark);
+    // const output = path.join(__dirname + '/output')
+    const output = await modifyPdf(file, req.body.watermark);
+    console.log("URL ==========> From main file",output);
     res.send({
         file: file.originalname,
         watermark: req.body.watermark,

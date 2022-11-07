@@ -36,7 +36,7 @@ async function modifyPdf(file,  watermark){
         // console.log("Snapshot ==========>", snapshot)
         console.log("Upload Success")
         getDownloadURL(ref(firebaseStorage, filename)).then(url => {
-            console.log("URL ============",url)
+            console.log("URL ============> From addWatermark.js",url)
         })
     });
 }
