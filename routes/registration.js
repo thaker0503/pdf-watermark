@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const { getDatabase, ref, set } = require("firebase/database");
-const { uuid } = require('uuidv4');
+const { v4:uuid } = require('uuid');
 
 function encrypt(password) {
   if (password == undefined) {
