@@ -1,54 +1,26 @@
 const express = require('express');
 const router = express.Router()
-const mysql = require('mysql');
 const bcrypt = require('bcrypt');
+const { getDatabase, ref, onValue } = require("firebase/database");
 
 router.post('/', async (req, res) => {
-    var con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database:"userDetails"
-      });
-      const hash = await bcrypt.hash(password, 10)
-    await databasesql(con,req.body.email,hash);
-    // console.log("Response",result);
-        res.send({
-            msg: "Login successfully",
-            // Result: result
-        // });
+    
+  const db = getDatabase();
+  const emailCheckRef = ref(db, 'userDetails/' + req.body.email);
+  onValue(emailCheckRef, async (snapshot) => {
+    const data = snapshot.val();
+    const check = await compare(req.body.password, data.password);
+    console.log(check);
+    check ? res.send({
+      msg:"Correct Password"
+    }) : res.send({
+      msg:"Wrong Password"
     })
-    decrypt(req.body.password);
-    // res.send("Facing Errors")
-   
+  });
   })
-  
-  async function databasesql(con,email,password){
-      
-    const sql = "INSERT INTO `login` (`email`, `password`, `verified`) VALUES ('"+email+"', '"+password+"', '0');"
-      
-    con.connect(async (err) => {
-        if (err) console.log(err);
-        await con.query(sql, function (err, result) {
-          if (err) console.log(err);
-          console.log("Result: " + JSON.stringify(result));
-          console.log(result.affectedRows);
-          if(result.affectedRows > 0){
-            console.log("Running If")
-            return true;
-          };
-        });
-     });
-  }
-  async function decrypt(password) {
-  const hash = await bcrypt.hash(password, 10)
-  const match = await bcrypt.compare(password, hash)
-  if (match) {
-   console.log("decrypt:", password);
-   console.log("encrypt:", hash);
-   return true
-  }
-  else{
-    return false;
-  }
+
+function compare(plaintextPassword, hash) {
+  return bcrypt.compare(plaintextPassword, hash)
 }
+
+module.exports = router;
