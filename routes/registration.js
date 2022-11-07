@@ -18,7 +18,9 @@ router.post('/', async (req, res) => {
   req.body.passweord = await encrypt(req.body.password);
   await writeUserData(req.body.email, req.body.password);
   
-  res.send("Checked")
+  res.send({
+    msg: "User Registered Successfully"
+  })
 
  
 });
