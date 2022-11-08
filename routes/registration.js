@@ -2,7 +2,11 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const { getDatabase, ref, set } = require("firebase/database");
-const { v4:uuid } = require('uuid');
+const { v4: uuid } = require('uuid');
+
+router.get('/', function (req, res, next) {
+  res.render('registration', { title: "Pdf Watermark registration" });
+});
 
 function encrypt(password) {
   if (password == undefined) {
@@ -21,8 +25,8 @@ router.post('/', async (req, res) => {
   const encPassword = await encrypt(req.body.password);
   await writeUserData(req.body.email, encPassword);
   res.send({
-    // msg: "User Registered Successfully"
-    msg: req.body
+    msg: `User Registered Successfully with ${req.body.email}`,
+    msgType: "Success"
   });
 });
 
