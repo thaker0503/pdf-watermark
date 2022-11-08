@@ -34,6 +34,7 @@ async function writeUserData(email,password) {
   return new Promise((resolve, reject) => {
     get(child(dbRef, 'userDetails')).then((snapshot) => {
       let a = []
+      console.log(snapshot.val())
       Object.values(snapshot.val()).forEach((i, k) => {
         a.push({ ...i, ...{ uuid: Object.keys(snapshot.val())[k] } })
       });
