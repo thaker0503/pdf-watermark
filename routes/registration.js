@@ -28,40 +28,54 @@ router.post('/', async (req, res) => {
   res.send(response);
 });
 
-async function writeUserData(email,password) {
+async function writeUserData(email, password) {
   const db = getDatabase();
   const dbRef = ref(db);
   return new Promise((resolve, reject) => {
     get(child(dbRef, 'userDetails')).then((snapshot) => {
-      let a = []
-      console.log(snapshot.val())
-      Object.values(snapshot.val()).forEach((i, k) => {
-        a.push({ ...i, ...{ uuid: Object.keys(snapshot.val())[k] } })
-      });
-      a.forEach(item => {
-        if (item.email === email) {
-          resolve({
-            msg: "User Already Exists",
-            msgType: "Error"
-          })
-        }
-        else {
-          set(ref(db, 'userDetails/' + uuid()), {
-            email: email,
-            password: password
-          }).then(resolve({
-            msg: "User registered Successfully",
-            msgType: "Success"
-          })).catch(err => {
-            if (err) {
-              reject(err)
-            }
-          })
-        }
-      })
+      if (snapshot.val() !== null) {
+        let a = []
+
+        Object.values(snapshot.val()).forEach((i, k) => {
+          a.push({ ...i, ...{ uuid: Object.keys(snapshot.val())[k] } })
+        });
+        a.forEach(item => {
+          if (item.email === email) {
+            resolve({
+              msg: "User Already Exists",
+              msgType: "Error"
+            })
+          }
+          else {
+            set(ref(db, 'userDetails/' + uuid()), {
+              email: email,
+              password: password
+            }).then(resolve({
+              msg: "User registered Successfully",
+              msgType: "Success"
+            })).catch(err => {
+              if (err) {
+                reject(err)
+              }
+            })
+          }
+        })
+      } else {
+        set(ref(db, 'userDetails/' + uuid()), {
+          email: email,
+          password: password
+        }).then(resolve({
+          msg: "User registered Successfully",
+          msgType: "Success"
+        })).catch(err => {
+          if (err) {
+            reject(err)
+          }
+        })
+      }
     })
-  })
   
+  })
 }
 
 
