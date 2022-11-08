@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const { getDatabase, ref, set } = require("firebase/database");
+// const {  } = require("firebase");
 const { v4:uuid } = require('uuid');
 
 function encrypt(password) {
@@ -31,6 +32,7 @@ async function writeUserData(email,password) {
     email,
     password : password
   });
+  
 }
 
 
