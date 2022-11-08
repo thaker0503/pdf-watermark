@@ -1,4 +1,3 @@
-// const fs = require('fs');
 const { degrees, PDFDocument, rgb, StandardFonts, BlendMode } = require('pdf-lib');
 
 const { getStorage, ref, uploadBytes, getDownloadURL } = require("firebase/storage");
