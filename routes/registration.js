@@ -2,10 +2,18 @@ var express = require("express");
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const { getDatabase, ref, set } = require("firebase/database");
-const { uuid } = require('uuidv4');
+const { v4:uuid } = require('uuid');
 
-async function encrypt(password) {
-  return bcrypt.hash(password, 10)
+function encrypt(password) {
+  if (password == undefined) {
+    return;
+  }
+  return new Promise((resolve,reject) => {
+    bcrypt.hash(password, 10, (er, encrypted) => {
+      if (er) reject(er)
+      resolve(encrypted)
+  })
+  })
 }
 
 router.post('/', async (req, res) => {
