@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <input type="file" id="uploadedPdf" accept=".pdf"/>
+
+    <script type="text/javascript">
+      const inputFileElement = document.getElementById('uploadedPdf');
+
+        inputFileElement.addEventListener('change', (e) => {
+          // uploading();
+          // console.log(e.target.files);
+          const [file] = e.target.files;
+          console.log(file);
+
+          const formData = new FormData();
+          formData.append('uploadedPdf', file);
+          formData.append('watermark',"Hello World")
+          // console.log(formData)
+          fetch('/addwatermark', {
+            body: formData,
+            method: "POST",
+          }).then(d => d.json()).then((r)=>{
+            console.log(r)
+          })
+        })
+    </script>
+  </body>
+</html>
