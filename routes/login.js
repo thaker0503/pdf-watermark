@@ -13,6 +13,7 @@ router.post('/', async (req, res) => {
         a.push({ ...i, ...{ uuid: Object.keys(snapshot.val())[k] } })
       });
       // console.log(a)
+      
       a.forEach(item => {
         // console.log("Email ==========>", item.email)
         email.push(item.email)
