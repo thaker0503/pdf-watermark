@@ -1,8 +1,9 @@
 var express = require("express");
 var router = express.Router();
 const bcrypt = require('bcrypt');
-const { getDatabase, ref, set } = require("firebase/database");
+const { getDatabase, ref, set, child } = require("firebase/database");
 const { v4:uuid } = require('uuid');
+const { get } = require("http");
 
 function encrypt(password) {
   if (password == undefined) {
@@ -27,10 +28,19 @@ router.post('/', async (req, res) => {
 
 async function writeUserData(email,password) {
   const db = getDatabase();
-  await set(ref(db, 'userDetails/' + uuid()), {
-    email,
-    password : password
-  });
+  const dbref = ref(db)
+  get(child(dbref,'userDetails/' + email)).then((snapshot)=>{
+  if (snapshot.exists()) {
+    console.log("Already Registered")
+  }
+  else{
+      set(ref(db, 'userDetails/' + uuid()), {
+      email,
+      password : password
+    });
+  }
+})
+ 
 }
 
 
