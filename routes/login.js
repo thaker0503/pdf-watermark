@@ -6,49 +6,62 @@ const { getDatabase, ref, child, get } = require("firebase/database");
 router.post('/', async (req, res) => {
   const db = getDatabase();
   const dbRef = ref(db);
-  get(child(dbRef, 'userDetails')).then((snapshot) => {
-    if (snapshot.val() !== null) {
-      let a = [], email = [];
-      Object.values(snapshot.val()).forEach((i, k) => {
-        a.push({ ...i, ...{ uuid: Object.keys(snapshot.val())[k] } })
-      });
-      // console.log(a)
-      
-      a.forEach(item => {
-        // console.log("Email ==========>", item.email)
-        email.push(item.email)
-      })
-      if (email.includes(req.body.email)) {
-        a.forEach(async (item) => {
-          const password = await compare(req.body.password, item.password);
-          // console.log(password)
-          if (item.email === req.body.email && password) {
-            res.send({
-              msg: "User Logged In",
-              msgType: "Success"
-            })
-          } else if (item.email === req.body.email && !password) {
-            res.send({
-              msg: "Wrong Password",
-              msgType: "Error"
-            })
-          }
+  const data = await getData(dbRef, req.body.email, req.body.password);
+  res.send({...data})
+})
+
+async function getData(dbRef,userEmail,userPassword) {
+  return new Promise((resolve, reject) => {
+    get(child(dbRef, 'userDetails')).then((snapshot) => {
+      if (snapshot.val() !== null) {
+        let a = [], email = [];
+        Object.values(snapshot.val()).forEach((i, k) => {
+          a.push({ ...i, ...{ uuid: Object.keys(snapshot.val())[k] } })
+        });
+        // console.log(a)
+
+        a.forEach(item => {
+          // console.log("Email ==========>", item.email)
+          email.push(item.email)
         })
-        
+        if (email.includes(userEmail)) {
+          a.forEach(async (item) => {
+            const password = await compare(userPassword, item.password);
+            // console.log(password)
+            if (item.email === userEmail && password) {
+              resolve({
+                msg: "User Logged In",
+                msgType: "Success"
+              })
+            } else if (item.email === userEmail && !password) {
+              resolve({
+                msg: "Wrong Password",
+                msgType: "Error"
+              })
+            } else {
+              resolve({
+                msg: "User Not Registered",
+                msgType: "Error"
+              })
+            }
+          })
+
+        } else {
+          resolve({
+            msg: "User Not Regtistered",
+            msgType: "Error"
+          })
+        }
       } else {
-        res.send({
-          msg: "User Not Regtistered",
+        resolve({
+          msg: "User Not Registered",
           msgType: "Error"
         })
       }
-    } else {
-      res.send({
-            msg: "User Not Registered",
-            msgType: "Error"
-          })
-    }
-  })
-})
+    }).catch(err => {if(err) reject(err)})
+  })  
+}
+
 
 
 async function compare(plaintextPassword, hash) {
