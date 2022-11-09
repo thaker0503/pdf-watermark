@@ -45,14 +45,12 @@ async function getData(dbRef,userEmail,userPassword) {
               })
             }
           })
+        } else {
+          resolve({
+            msg: "User Not Regtistered",
+            msgType: "Error"
+          })
         }
-
-        // } else {
-        //   resolve({
-        //     msg: "User Not Regtistered",
-        //     msgType: "Error"
-        //   })
-        // }
       } else {
         resolve({
           msg: "User Not Registered",
