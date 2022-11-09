@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
       });
       // console.log(a)
       a.forEach(item => {
-        console.log("Email ==========>", item.email)
+        // console.log("Email ==========>", item.email)
         email.push(item.email)
       })
       if (email.includes(req.body.email)) {
