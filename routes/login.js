@@ -21,7 +21,7 @@ async function getData(dbRef,userEmail,userPassword) {
         // console.log(a)
 
         a.forEach(item => {
-          // console.log("Email ==========>", item.email)
+          console.log("Email ==========>", item.email)
           email.push(item.email)
         })
         if (email.includes(userEmail)) {
@@ -45,13 +45,14 @@ async function getData(dbRef,userEmail,userPassword) {
               })
             }
           })
-
-        } else {
-          resolve({
-            msg: "User Not Regtistered",
-            msgType: "Error"
-          })
         }
+
+        // } else {
+        //   resolve({
+        //     msg: "User Not Regtistered",
+        //     msgType: "Error"
+        //   })
+        // }
       } else {
         resolve({
           msg: "User Not Registered",
