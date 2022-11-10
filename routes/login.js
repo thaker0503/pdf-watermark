@@ -26,23 +26,6 @@ async function getData(dbRef,userEmail,userPassword) {
         Object.values(snapshot.val()).forEach((i, k) => {
           a.push({ ...i, ...{ uuid: Object.keys(snapshot.val())[k] } })
         });
-<<<<<<< HEAD
-     });
-  }
-  async function decrypt(password) {
-  const hash = await bcrypt.hash(password, 10)
-  const match = await bcrypt.compare(password, hash)
-  if (match) {
-   console.log("decrypt:", password);
-   console.log("encrypt:", hash);
-   return true
-  }
-  else{
-    return false;
-  }
-}
-module.exports = router;
-=======
         // console.log(a)
 
         a.forEach(item => {
@@ -93,4 +76,3 @@ async function compare(plaintextPassword, hash) {
 }
 
 module.exports = router;
->>>>>>> main
