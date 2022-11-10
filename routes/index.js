@@ -7,7 +7,7 @@ const request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'PDF  Adder' });
+  res.render('login', { title: 'PDF  Adder' });
 });
 
 const upload = multer({

@@ -53,7 +53,7 @@
             const formData = new FormData();
           formData.append('uploadedPdf', file);
           formData.append('watermark',watermark.value)
-            fetch('https://stark-harbor-18596.herokuapp.com/addwatermark', {
+            fetch('/addwatermark', {
             body: formData,
             method: "POST",
           }).then(d => d.json()).then((r)=>{
