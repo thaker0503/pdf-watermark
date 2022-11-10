@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+  </head>
+  <body>
+    <nav>
+        <header>
+            <h1>PDF Watermark Adder</h1>
+        </header>
+        <main>
+            <div >
+                <!-- Login Form -->
+            <form action="" id="loginForm" >
+            Email: <input type="email" name="" id="email">
+            Password: <input type="password" name="" id="password">
+            <input type="submit" value="Submit" id="submit" />
+            Not registered yet? <a href="/register" id="register">click here</a>
+            </form>
+            </div>
+    </nav>
+    </main>
+    <script type="text/javascript">
+    const submitBtn = document.getElementById('submit')
+
+submitBtn.addEventListener('click',(e) => {
+    e.preventDefault();
+    const email= document.getElementById("email");
+    const password= document.getElementById("password");
+    if (mainFunc()) {
+        console.log(email.value)
+        console.log(password.value)
+        fetch('https://stark-harbor-18596.herokuapp.com/login', {
+        method:'POST', 
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email.value,
+            password: password.value,
+          })
+        })
+        .then(response => response.json())
+        // .then(resp => resp.text()).then(console.log)
+        .then((data) => {
+            // console.log(data)
+            if (data.msgType !== "Error") {
+                location.href = "/uploadpdf"
+            } else {
+                console.log(data.msg)
+            }
+        })
+        // .then(json => console.log(json))
+        .catch(error => {
+            if(error){
+                console.log('Request Failed',error)
+            }
+        });
+        console.log("logged In")
+    }
+    else {
+        console.log("Cannot logged In")
+    }    
+})
+
+
+function mainFunc(){
+    const email= document.getElementById("email");
+    const password= document.getElementById("password");
+    email.classList.remove('error')
+    password.classList.remove('error')
+    if (EmailValidate(email.value) && passwordValidate(password.value)){
+        
+        console.log("form submitted")
+        return true
+    }
+    else{
+        if (!EmailValidate(email.value)) {
+            email.classList.add('error')
+        }
+        if (!passwordValidate(password.value)) {
+            password.classList.add('error')
+        }
+        console.log("plaese fill the details")
+        return false
+    }   
+}
+function EmailValidate(email){
+    const regularExpression  = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    return email.match(regularExpression)   
+}
+function passwordValidate(password){
+    const regularExpression  = /^[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+    return password.match(regularExpression)   
+}
+</script>
+</body>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+  </head>
+  <body>
+    <nav>
+    <div>
+        <form>
+        <input type="button" value="Download PDF" id="download">
+        <p><%= link %></p>
+        </form>
+    </div>
+    </nav>
+    <!-- <script>
+        const link = "<%= link %>"
+        fetch("/download", {
+            method: "POST",
+            headers: {
+            "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({
+            link: link
+            })
+        }).then(d=>d.json()).then(r => {
+            console.log(r)
+        })
+    </script> -->
+  </body>
