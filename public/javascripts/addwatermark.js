@@ -1,4 +1,3 @@
-const fs = require('fs');
 const { degrees, PDFDocument, rgb, StandardFonts, BlendMode } = require('pdf-lib');
 
 const { getStorage, ref, uploadBytes, getDownloadURL } = require("firebase/storage");
@@ -28,17 +27,28 @@ async function modifyPdf(file,  watermark){
         
     }
     const pdfBytes = await pdfDoc.save();
+    const url = await uploadToFirebase(file, pdfBytes);
+    console.log("Url Again", url)
+    return url;
+}
+
+function uploadToFirebase(file,pdfBytes) {
     const firebaseStorage = getStorage();
 
     const filename = file.originalname.split('.')[0] + '-updated-' + Date.now()
-    const storageRef = ref(firebaseStorage, filename );
-    await uploadBytes(storageRef, pdfBytes).then((snapshot) => {
-        // console.log("Snapshot ==========>", snapshot)
-        console.log("Upload Success")
-        getDownloadURL(ref(firebaseStorage, filename)).then(url => {
-            console.log("URL ============> From addWatermark.js",url)
-        })
-    });
+    const storageRef = ref(firebaseStorage, filename);
+    return new Promise((resolve, reject) => {
+        uploadBytes(storageRef, pdfBytes).then((snapshot) => {
+            // console.log("Snapshot ==========>", snapshot)
+            console.log("Upload Success")
+            getDownloadURL(ref(firebaseStorage, filename)).then(url => {
+                console.log("URL ============", url)
+                resolve(url);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
+    })
 }
 
 module.exports = modifyPdf;

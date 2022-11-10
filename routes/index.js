@@ -7,8 +7,12 @@ const request = require('request');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+<<<<<<< HEAD
   // res.render('login', {title:"Pdf Watermark login"});
   res.render('login', { title: 'PDF  watermark login ' });
+=======
+  res.render('index', { title: 'PDF  Adder' });
+>>>>>>> main
 });
 
 const upload = multer({
@@ -33,6 +37,7 @@ router.post('/', upload.single('uploadedPdf'), function (req, res) {
 })
 
 
+<<<<<<< HEAD
 // router.post('/download-file', (req, res, next)=>{
 //   // request('https://firebasestorage.googleapis.com/v0/b/pdf-watermark-a2d77.appspot.com/o/14944-34113-1-PB.pdf?alt=media&token=8db55a5a-d664-46cf-93d5-cbc73178655c').pipe(res)
 //   res.setHeader('content-disposition', 'attachment; filename = quote.pdf');
@@ -40,4 +45,7 @@ router.post('/', upload.single('uploadedPdf'), function (req, res) {
   
 
 // })
+=======
+
+>>>>>>> main
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router()
-const mysql = require('mysql');
 const bcrypt = require('bcrypt');
+const { getDatabase, ref, child, get } = require("firebase/database");
 
 
 
@@ -12,40 +12,21 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', async (req, res) => {
-    var con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "",
-        database:"userDetails"
-      });
-      const hash = await bcrypt.hash(password, 10)
-    await databasesql(con,req.body.email,hash);
-    // console.log("Response",result);
-        res.send({
-            msg: "Login successfully",
-            // Result: result
-        // });
-    })
-    decrypt(req.body.password);
-    // res.send("Facing Errors")
-   
-  })
-  
-  async function databasesql(con,email,password){
-      
-    const sql = "INSERT INTO `login` (`email`, `password`, `verified`) VALUES ('"+email+"', '"+password+"', '0');"
-      
-    con.connect(async (err) => {
-        if (err) console.log(err);
-        await con.query(sql, function (err, result) {
-          if (err) console.log(err);
-          console.log("Result: " + JSON.stringify(result));
-          console.log(result.affectedRows);
-          if(result.affectedRows > 0){
-            console.log("Running If")
-            return true;
-          };
+  const db = getDatabase();
+  const dbRef = ref(db);
+  const data = await getData(dbRef, req.body.email, req.body.password);
+  res.send({...data})
+})
+
+async function getData(dbRef,userEmail,userPassword) {
+  return new Promise((resolve, reject) => {
+    get(child(dbRef, 'userDetails')).then((snapshot) => {
+      if (snapshot.val() !== null) {
+        let a = [], email = [];
+        Object.values(snapshot.val()).forEach((i, k) => {
+          a.push({ ...i, ...{ uuid: Object.keys(snapshot.val())[k] } })
         });
+<<<<<<< HEAD
      });
   }
   async function decrypt(password) {
@@ -61,3 +42,55 @@ router.post('/', async (req, res) => {
   }
 }
 module.exports = router;
+=======
+        // console.log(a)
+
+        a.forEach(item => {
+          console.log("Email ==========>", item.email)
+          email.push(item.email)
+        })
+        if (email.includes(userEmail)) {
+          a.forEach(async (item) => {
+            const password = await compare(userPassword, item.password);
+            // console.log(password)
+            if (item.email === userEmail && password) {
+              resolve({
+                msg: "User Logged In",
+                msgType: "Success"
+              })
+            } else if (item.email === userEmail && !password) {
+              resolve({
+                msg: "Wrong Password",
+                msgType: "Error"
+              })
+            } else {
+              resolve({
+                msg: "User Not Registered",
+                msgType: "Error"
+              })
+            }
+          })
+        } else {
+          resolve({
+            msg: "User Not Regtistered",
+            msgType: "Error"
+          })
+        }
+      } else {
+        resolve({
+          msg: "User Not Registered",
+          msgType: "Error"
+        })
+      }
+    }).catch(err => {if(err) reject(err)})
+  })  
+}
+
+
+
+async function compare(plaintextPassword, hash) {
+  return bcrypt.compare(plaintextPassword, hash)
+}
+
+module.exports = router;
+>>>>>>> main

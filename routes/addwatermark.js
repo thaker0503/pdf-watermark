@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var path = require('path');
-const fs = require('fs')
 const modifyPdf = require('../public/javascripts/addwatermark');
 
 const upload = multer({
@@ -22,13 +21,14 @@ const upload = multer({
 
 router.post('/', upload.single('uploadedPdf'), async (req, res) => {
     const file = req.file
-    // const output = path.join(__dirname + '/output')
-    const output = await modifyPdf(file, req.body.watermark);
+    const output = await modifyPdf(file, req.body.watermark).catch((err) => {
+        if (err) throw err;
+    })
     console.log("URL ==========> From main file",output);
     res.send({
         file: file.originalname,
         watermark: req.body.watermark,
-        // url : url
+        url : output
     })
 });
 
