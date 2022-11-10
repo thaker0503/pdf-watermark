@@ -34,7 +34,7 @@ submitBtn.addEventListener('click',(e) => {
     if (mainFunc()) {
         console.log(email.value)
         console.log(password.value)
-        fetch('https://stark-harbor-18596.herokuapp.com/register',
+        fetch('/register',
         // location.href ='/login',
         {
         method:'POST', 
