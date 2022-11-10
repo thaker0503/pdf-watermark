@@ -3,6 +3,14 @@ const router = express.Router()
 const bcrypt = require('bcrypt');
 const { getDatabase, ref, child, get } = require("firebase/database");
 
+
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('login', {title:"Pdf Watermark Login"});
+});
+
+
 router.post('/', async (req, res) => {
   const db = getDatabase();
   const dbRef = ref(db);
