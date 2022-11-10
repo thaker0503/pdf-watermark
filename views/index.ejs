@@ -5,7 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <input type="file" id="uploadedPdf" />
+    <input type="file" id="uploadedPdf" accept=".pdf"/>
 
     <script type="text/javascript">
       const inputFileElement = document.getElementById('uploadedPdf');
@@ -18,15 +18,16 @@
 
           const formData = new FormData();
           formData.append('uploadedPdf', file);
+          formData.append('watermark',"Hello World")
           // console.log(formData)
-          fetch('/', {
+          fetch('/addwatermark', {
             body: formData,
             method: "POST",
-          }).then(d => d.json()).then(r => {
+          }).then(d => d.json()).then((r)=>{
             console.log(r)
-            // displayImg(r.url);
           })
         })
+    
     </script>
   </body>
 </html>

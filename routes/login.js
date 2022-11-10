@@ -1,36 +1,42 @@
-var express = require("express");
-var router = express.Router();
+const express = require('express');
+const router = express.Router()
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
-// router.get('/', function(req, res, next) {
-//     res.send('respond with a resource');
-//   });
-  router.post('/', async (req, res) => {
+
+
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('login', {title:"Pdf Watermark Login"});
+});
+
+
+router.post('/', async (req, res) => {
     var con = mysql.createConnection({
         host: "localhost",
         user: "root",
         password: "",
         database:"userDetails"
       });
-    await databasesql(con,req.body.email,req.body.password);
+      const hash = await bcrypt.hash(password, 10)
+    await databasesql(con,req.body.email,hash);
     // console.log("Response",result);
         res.send({
-            msg: "Data added successfully",
+            msg: "Login successfully",
             // Result: result
         // });
     })
-    encrypt(req.body.password);
+    decrypt(req.body.password);
     // res.send("Facing Errors")
    
   })
   
   async function databasesql(con,email,password){
       
-    const sql = "INSERT INTO `credentials` (`email`, `password`, `verified`) VALUES ('"+email+"', '"+password+"', '0');"
+    const sql = "INSERT INTO `login` (`email`, `password`, `verified`) VALUES ('"+email+"', '"+password+"', '0');"
       
-    await con.connect(async (err) => {
+    con.connect(async (err) => {
         if (err) console.log(err);
-        console.log("Connection Success");
         await con.query(sql, function (err, result) {
           if (err) console.log(err);
           console.log("Result: " + JSON.stringify(result));
@@ -38,17 +44,20 @@ const bcrypt = require('bcrypt');
           if(result.affectedRows > 0){
             console.log("Running If")
             return true;
-          }
+          };
         });
      });
   }
-async function encrypt(password) {
-     const hash = await bcrypt.hash(password, 10)
-     const match = await bcrypt.compare(password, hash)
-     if (match) {
-      console.log("encrypt:", password);
-      console.log("decrypt:", hash);
-     }
- }
- 
+  async function decrypt(password) {
+  const hash = await bcrypt.hash(password, 10)
+  const match = await bcrypt.compare(password, hash)
+  if (match) {
+   console.log("decrypt:", password);
+   console.log("encrypt:", hash);
+   return true
+  }
+  else{
+    return false;
+  }
+}
 module.exports = router;

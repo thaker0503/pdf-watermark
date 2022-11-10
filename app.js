@@ -3,11 +3,32 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
+const { initializeApp } = require("firebase/app");
+// const { getStorage } = require("firebase/storage");
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAxza-BopzV1uPC2aZ9L354ILNcckNNnMU",
+  authDomain: "pdf-watermark-a2d77.firebaseapp.com",
+  // databaseURL: "https://pdf-watermark-a2d77-default-rtdb.firebaseio.com",
+  projectId: "pdf-watermark-a2d77",
+  storageBucket: "pdf-watermark-a2d77.appspot.com",
+  messagingSenderId: "784866519985",
+  appId: "1:784866519985:web:26c2417c11ba0b7361eb90"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+// const firebaseStorage = getStorage(firebaseApp);
 
 var indexRouter = require('./routes/index');
+var loginRouter = require('./routes/login');
+var encryptRouter = require('./routes/encrypt');
+var decryptRouter = require('./routes/decrypt');
+var uploadpdfRouter = require('./routes/uploadpdf');
+var downloadRouter = require('./routes/download');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/upload');
-var loginRouter = require('./routes/login');
+var registerRouter = require('./routes/registration');
 var waterMarkRouter = require('./routes/addwatermark');
 // var uploadPageRouter = require('./routes/uploadpage');
 
@@ -22,11 +43,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 app.use('/', indexRouter);
+app.use('/login', loginRouter);
+app.use('/encrypt', encryptRouter);
+app.use('/decrypt', decryptRouter);
+app.use('/uploadpdf', uploadpdfRouter);
+app.use('/download', downloadRouter);
 app.use('/users', usersRouter);
 app.use('/upload', uploadRouter);
-app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 app.use('/addwatermark', waterMarkRouter);
 // app.use('/uploadpage', uploadPageRouter)
 
@@ -49,4 +76,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+module.exports = firebaseApp;
 module.exports = app;
