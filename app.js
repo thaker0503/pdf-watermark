@@ -26,6 +26,7 @@ var uploadRouter = require('./routes/upload');
 var registerRouter = require('./routes/registration');
 var loginRouter = require('./routes/login');
 var waterMarkRouter = require('./routes/addwatermark');
+// var downloadFileRouter = require('./routes/download');
 // var uploadPageRouter = require('./routes/uploadpage');
 
 var app = express();
@@ -47,6 +48,7 @@ app.use('/upload', uploadRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/addwatermark', waterMarkRouter);
+// app.use('/download', downloadFileRouter);
 // app.use('/uploadpage', uploadPageRouter)
 
 

@@ -21,7 +21,7 @@ async function modifyPdf(file,  watermark){
             size: 50,
             font: timesRomanFont,
             color: rgb(0, 0, 0),
-            rotate: degrees(45),
+            // rotate: degrees(45),
             blendMode: BlendMode.Overlay
         });
         
