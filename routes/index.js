@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
+const request = require('request');
+// router.set("view engine","ejs");
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -27,7 +30,6 @@ router.post('/', upload.single('uploadedPdf'), function (req, res) {
   console.log("File ==> " + req.file + "File ==> "+ req.body)
   res.send({ msg: "Success" });
 })
-
 
 
 module.exports = router;

@@ -21,6 +21,11 @@ const firebaseApp = initializeApp(firebaseConfig);
 // const firebaseStorage = getStorage(firebaseApp);
 
 var indexRouter = require('./routes/index');
+var loginRouter = require('./routes/login');
+var encryptRouter = require('./routes/encrypt');
+var decryptRouter = require('./routes/decrypt');
+var uploadpdfRouter = require('./routes/uploadpdf');
+var downloadRouter = require('./routes/download');
 var usersRouter = require('./routes/users');
 var uploadRouter = require('./routes/upload');
 var registerRouter = require('./routes/registration');
@@ -43,6 +48,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use('/', indexRouter);
+app.use('/login', loginRouter);
+app.use('/encrypt', encryptRouter);
+app.use('/decrypt', decryptRouter);
+app.use('/uploadpdf', uploadpdfRouter);
+app.use('/download', downloadRouter);
 app.use('/users', usersRouter);
 app.use('/upload', uploadRouter);
 app.use('/register', registerRouter);

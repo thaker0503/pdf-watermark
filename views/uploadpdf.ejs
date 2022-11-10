@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%=  title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.2.0/bcrypt.js" integrity="sha512-tFbGxu83rXLUBv8rUnccoJqzpYG3SiZnycAZph1kmsxcwoPnWBhL2ILP6on/6jm7dgQDDGOuNAwNRRmAzDo5ww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- <link rel='stylesheet' href='style.css' /> -->
+  </head>
+  <body>
+    <nav>
+      <div>
+          
+          <!-- Upload Pdf Form -->
+          <form id="uploadPdf" action="/download">
+              Upload PDF
+              <input type="file" name="" id="uploadedPdf" accept=".pdf" />
+              Watermark Text
+              Watermark: <input type="text" name="watermark" id="watermark" />
+              <input type="submit" value="Submit" id="submit2"/><br>
+              <div id="url"></div>    
+          </form>
+      </div>
+  </nav>
+    <script type="text/javascript">
+      const inputFileElement = document.getElementById('uploadedPdf');
+      
+      
+      
+      inputFileElement.addEventListener('change', (e) => {
+        // uploading();
+        // console.log(e.target.files);
+          const [file] = e.target.files;
+          console.log(file);
+          
+          // gETTING WATERMARK TEXT
+          // console.log(watermark.value)
+          
+          
+          
+          // console.log(formData)
+          submit(file)
+          
+        })
+        
+        function submit(file){
+          const submitBtn =  document.getElementById('submit2')
+          const watermark = document.getElementById('watermark')
+          const abc = document.getElementById('url')
+          
+          submitBtn.addEventListener('click',(e)=>{
+            e.preventDefault();
+            
+            const formData = new FormData();
+          formData.append('uploadedPdf', file);
+          formData.append('watermark',watermark.value)
+            fetch('https://stark-harbor-18596.herokuapp.com/addwatermark', {
+            body: formData,
+            method: "POST",
+          }).then(d => d.json()).then((r)=>{
+            console.log(r.url)
+            const link = r.url
+            download()
+            function download(){
+              const a = document.createElement('a')
+              a.href = r.url
+              // a.download = r.url.split('/').pop()
+              a.innerText = "Download"
+              document.body.appendChild(a)
+              a.click()
+              document.body.removeChild(a)
+            }
+            // fetch("/download",{
+            //   method: "POST",
+            //   headers: {
+            //     "Content-Type" : "application/json"
+            //   },
+            //   body: JSON.stringify({link})
+            // })
+            // .then(d => d.json()).then(r => {
+            //   console.log(r.link)
+            // }).catch(err => {
+            //     if (err){
+            //       console.log(err)
+            //     }
+            //   })
+            // fetch("/encrypt", {
+            //   method: "POST",
+            //   headers: {
+            //     "Content-Type": "application/json"
+            //   },
+            //   body: JSON.stringify({
+            //     link: r.url
+            //   })
+            // }).then(d => d.json()).then(r => {
+            //   console.log(r)
+              
+            //   // location.href = `/download?link=${r.link}`
+            // })
+            // abc.append(r.url)
+          })
+          })
+        }        
+    </script>
+  </body>
+</html>
