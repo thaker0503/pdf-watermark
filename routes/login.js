@@ -3,6 +3,14 @@ const router = express.Router()
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 
+
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.render('login', {title:"Pdf Watermark Login"});
+});
+
+
 router.post('/', async (req, res) => {
     var con = mysql.createConnection({
         host: "localhost",
@@ -52,3 +60,4 @@ router.post('/', async (req, res) => {
     return false;
   }
 }
+module.exports = router;
