@@ -3,31 +3,42 @@
   <head>
     <title><%=  title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.2.0/bcrypt.js" integrity="sha512-tFbGxu83rXLUBv8rUnccoJqzpYG3SiZnycAZph1kmsxcwoPnWBhL2ILP6on/6jm7dgQDDGOuNAwNRRmAzDo5ww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- <link rel='stylesheet' href='style.css' /> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.2.0/bcrypt.js" integrity="sha512-tFbGxu83rXLUBv8rUnccoJqzpYG3SiZnycAZph1kmsxcwoPnWBhL2ILP6on/6jm7dgQDDGOuNAwNRRmAzDo5ww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
   </head>
   <body>
-    <nav>
-      <div>
-          
+    
+
+    <div class="egf">
+      <header> <h1>PDF Watermark Adder</h1>  </header>
           <!-- Upload Pdf Form -->
-          <form id="uploadPdf" action="/download">
-              Upload PDF
-              <input type="file" name="" id="uploadedPdf" accept=".pdf" />
-              Watermark Text
-              Watermark: <input type="text" name="watermark" id="watermark" />
-              <input type="submit" value="Submit" id="submit2"/><br>
-              <div id="url"></div>    
-          </form>
-      </div>
-  </nav>
-    <script type="text/javascript">
+      <form id="uploadPdf" class="uploadpdf">
+        <span> Upload PDF:</span><input type="file" name="" id="uploadedPdf" accept=".pdf" class="file" /><br>
+        <span>Watermark Text:</span><input type="text" name="watermark" id="watermark" class="watermark"/><br>
+        <input type="submit" value="Submit" id="submit2" class="submit1"/><br>
+        <div id="url"></div>    
+      </form>
+    </div>
+   <script defer>
+    const loggedIn = localStorage.getItem('LoggedIn');
+      console.log(typeof(loggedIn))
+      if (loggedIn === "true") {
+        mainFunc() 
+      } else {
+        window.location = "/login"
+        // genAlert("Error","Please Login")
+      }
+    function genAlert(params) {
+      
+    }
+
+    function mainFunc() {
       const inputFileElement = document.getElementById('uploadedPdf');
       
       
       
       inputFileElement.addEventListener('change', (e) => {
         // uploading();
+        e.preventDefault();
         // console.log(e.target.files);
           const [file] = e.target.files;
           console.log(file);
@@ -99,7 +110,8 @@
             // abc.append(r.url)
           })
           })
-        }        
-    </script>
+        }  
+    }
+   </script>
   </body>
 </html>
