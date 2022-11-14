@@ -3,25 +3,27 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/js/bootstrap.min.js" integrity="sha512-5BqtYqlWfJemW5+v+TZUs22uigI8tXeVah5S/1Z6qBLVO7gakAOtkOzUtgq6dsIo5c0NJdmGPs0H9I+2OHUHVQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
-    <nav>
-        <header>
-            <h1>PDF Watermark Adder</h1>
-        </header>
-        <main>
-            <div >
+        <div class="xyz">
+            <div class="alert alert-success"  id="alert" role="alert"></div>
+            <header>
+                <h1>PDF Watermark Login</h1>
+            </header>
                 <!-- Login Form -->
-            <form action="" id="loginForm" >
-            Email: <input type="email" name="" id="email">
-            Password: <input type="password" name="" id="password">
-            <input type="submit" value="Submit" id="submit" />
-            Not registered yet? <a href="/register" id="register">click here</a>
+            <form action="" id="loginForm" class="login">
+            <span>Email:</span><input type="email" name="" id="email" class="email"><br>
+            <span>Password:</span><input type="password" name="" id="password" class="password"><br>
+            <input type="submit" value="Submit" id="submit" class="submit" /><br>
+            <span class="last">Not registered yet? <a href="/register" id="register">click here</a></span>
             </form>
-            </div>
-    </nav>
-    </main>
+        </div>
+          
+
     <script type="text/javascript">
+      localStorage.setItem('LoggedIn',false)
+
     const submitBtn = document.getElementById('submit')
 
 submitBtn.addEventListener('click',(e) => {
@@ -46,9 +48,26 @@ submitBtn.addEventListener('click',(e) => {
         .then((data) => {
             // console.log(data)
             if (data.msgType !== "Error") {
+                localStorage.setItem('LoggedIn',true)
                 location.href = "/uploadpdf"
             } else {
-                console.log(data.msg)
+                if (data.msg == "Wrong Password") {
+                    console.log(data.msg)
+                    document.getElementById("alert").style.display="block"
+                document.getElementById("alert").innerHTML = "Wrong password"   
+                setTimeout(function() {
+                document.getElementById("alert").style.display = "none"
+                }, 4000)
+                }else{
+                    console.log(data.msg)
+                document.getElementById("alert").style.display="block"
+                document.getElementById("alert").innerHTML = "Not registered yet"   
+                setTimeout(function() {
+                document.getElementById("alert").style.display = "none"
+                }, 4000)
+                }
+
+               
             }
         })
         // .then(json => console.log(json))
@@ -71,7 +90,6 @@ function mainFunc(){
     email.classList.remove('error')
     password.classList.remove('error')
     if (EmailValidate(email.value) && passwordValidate(password.value)){
-        
         console.log("form submitted")
         return true
     }
@@ -83,6 +101,11 @@ function mainFunc(){
             password.classList.add('error')
         }
         console.log("plaese fill the details")
+        document.getElementById("alert").style.display="block"
+                document.getElementById("alert").innerHTML = "Please fill the details"   
+                setTimeout(function() {
+                document.getElementById("alert").style.display = "none"
+                }, 3000)
         return false
     }   
 }
